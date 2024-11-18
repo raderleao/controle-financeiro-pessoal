@@ -1,0 +1,26 @@
+# Ambiente virtual
+venv/
+
+# Arquivos de cache do Python
+__pycache__/
+*.py[cod]
+
+# Configurações de IDE
+*.code-workspace
+.vscode/
+
+# Arquivos de log e temporários
+*.log
+*.bak
+*.tmp
+
+# Cache de ferramentas de teste
+.pytest_cache/
+
+# Outras pastas geradas automaticamente
+*.egg-info/
+dist/
+build/
+
+# Arquivos de banco de dados locais (se aplicável)
+*.sqlite3
