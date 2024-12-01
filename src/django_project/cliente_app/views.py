@@ -1,62 +1,66 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK
+from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT
 from rest_framework.request import Request
+from .models import Cliente
+from .serializers import ClienteSerializer
+
 
 class ClienteViewSet(viewsets.ViewSet):
+    """
+    ViewSet para gerenciar clientes.
+    """
+
     def list(self, request: Request) -> Response:
-        data = [
-            {
-                "id": "f73b2f8b-8f2f-41c4-b915-f0bb15ef7e40",
-                "nome": "User1",
-                "email": "user1@example.com",
-                "is_active": True,
-                "criado_por": "Bob",
-                "atualizado_por": "Diana",
-                "data_criacao": "2024-11-24T22:41:53.994638",
-                "data_atualizacao": "2024-11-24T22:41:53.994647",
-                "historico_alteracoes": [
-                    {
-                        "campo": "nome",
-                        "valor_anterior": "OldUser1",
-                        "valor_atual": "User1",
-                        "data_alteracao": "2024-11-24T22:41:53.994650",
-                        "alterado_por": "Eve"
-                    },
-                    {
-                        "campo": "email",
-                        "valor_anterior": "olduser1@example.com",
-                        "valor_atual": "user1@example.com",
-                        "data_alteracao": "2024-11-24T22:41:53.994657",
-                        "alterado_por": "Charlie"
-                    }
-                ]
-            },
-            {
-                "id": "4f8a7ce1-98ab-43a1-a8f5-7ed51ef5411f",
-                "nome": "User2",
-                "email": "user2@example.com",
-                "is_active": True,
-                "criado_por": "Alice",
-                "atualizado_por": "Bob",
-                "data_criacao": "2024-11-24T22:41:53.995085",
-                "data_atualizacao": "2024-11-24T22:41:53.995096",
-                "historico_alteracoes": [
-                    {
-                        "campo": "nome",
-                        "valor_anterior": "OldUser2",
-                        "valor_atual": "User2",
-                        "data_alteracao": "2024-11-24T22:41:53.995100",
-                        "alterado_por": "Bob"
-                    },
-                    {
-                        "campo": "email",
-                        "valor_anterior": "olduser2@example.com",
-                        "valor_atual": "user2@example.com",
-                        "data_alteracao": "2024-11-24T22:41:53.995128",
-                        "alterado_por": "Bob"
-                    }
-                ]
-            },
-        ]
-        return Response(status=HTTP_200_OK, data=data)
+        """
+        Retorna todos os clientes do banco de dados.
+        """
+        clientes = Cliente.objects.all()
+        serializer = ClienteSerializer(clientes, many=True)
+        return Response(status=HTTP_200_OK, data=serializer.data)
+
+    def create(self, request: Request) -> Response:
+        """
+        Cria um novo cliente.
+        """
+        serializer = ClienteSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=HTTP_201_CREATED, data=serializer.data)
+        return Response(status=400, data=serializer.errors)
+
+    def retrieve(self, request: Request, pk=None) -> Response:
+        """
+        Retorna um cliente específico pelo ID.
+        """
+        try:
+            cliente = Cliente.objects.get(pk=pk)
+            serializer = ClienteSerializer(cliente)
+            return Response(status=HTTP_200_OK, data=serializer.data)
+        except Cliente.DoesNotExist:
+            return Response(status=404, data={"detail": "Cliente não encontrado."})
+
+    def update(self, request: Request, pk=None) -> Response:
+        """
+        Atualiza um cliente específico pelo ID.
+        """
+        try:
+            cliente = Cliente.objects.get(pk=pk)
+            serializer = ClienteSerializer(cliente, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(status=HTTP_200_OK, data=serializer.data)
+            return Response(status=400, data=serializer.errors)
+        except Cliente.DoesNotExist:
+            return Response(status=404, data={"detail": "Cliente não encontrado."})
+
+    def destroy(self, request: Request, pk=None) -> Response:
+        """
+        Deleta um cliente específico pelo ID.
+        """
+        try:
+            cliente = Cliente.objects.get(pk=pk)
+            cliente.delete()
+            return Response(status=HTTP_204_NO_CONTENT)
+        except Cliente.DoesNotExist:
+            return Response(status=404, data={"detail": "Cliente não encontrado."})

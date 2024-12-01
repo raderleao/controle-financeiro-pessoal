@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
 import pytest
 from uuid import UUID
-from src.core.cliente.application.repository.cliente_repository import ClienteRepository
+from src.core.cliente.domain.repository.cliente_repository import ClienteRepository
 from src.core.cliente.domain.cliente import Cliente
 from src.core.cliente.application.use_case.create_cliente import CreateCliente, CreateClienteRequest, CreateClienteResponse
 from src.core.cliente.domain.exceptions import InvalidCliente

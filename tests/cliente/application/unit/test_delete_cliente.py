@@ -4,7 +4,7 @@ from uuid import uuid4
 import uuid
 
 import pytest
-from src.core.cliente.application.repository.cliente_repository import ClienteRepository
+from src.core.cliente.domain.repository.cliente_repository import ClienteRepository
 from src.core.cliente.application.use_case.delete_cliente import DeleteCliente, DeleteClienteRequest
 from src.core.cliente.domain.exceptions import ClienteNotFound
 from src.core.cliente.domain.cliente import Cliente

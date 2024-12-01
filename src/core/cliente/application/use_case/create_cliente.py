@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from src.core.cliente.application.repository.cliente_repository import ClienteRepository
+from src.core.cliente.domain.repository.cliente_repository import ClienteRepository
 from ...domain.cliente import Cliente
-from src.core.cliente.domain.exceptions import InvalidClienteData
+from src.core.cliente.domain.exceptions import InvalidCliente
 from datetime import datetime
 from uuid import UUID
 
@@ -36,6 +36,6 @@ class CreateCliente:
 
             self.repository.save(request)
         except ValueError as err:
-            raise InvalidClienteData(err)
+            raise InvalidCliente(err)
         
         return CreateClienteResponse(id=request.id)

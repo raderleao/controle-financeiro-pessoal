@@ -1,4 +1,4 @@
-from src.core.cliente.application.repository.cliente_repository import ClienteRepository
+from src.core.cliente.domain.repository.cliente_repository import ClienteRepository
 from src.core.cliente.domain.exceptions import ClienteNotFound
 import uuid
 

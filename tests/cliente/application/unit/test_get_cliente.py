@@ -1,5 +1,5 @@
 from unittest.mock import MagicMock, create_autospec
-from src.core.cliente.application.repository.cliente_repository import ClienteRepository
+from src.core.cliente.domain.repository.cliente_repository import ClienteRepository
 from src.core.cliente.application.use_case.get_cliente import GetCliente, GetClienteRequest, GetClienteResponse
 from src.core.cliente.domain.cliente import Cliente
 

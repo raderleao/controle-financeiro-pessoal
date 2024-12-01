@@ -2,7 +2,7 @@ from unittest import TestCase
 from unittest.mock import create_autospec
 import uuid
 
-from src.core.cliente.application.repository.cliente_repository import ClienteRepository
+from src.core.cliente.domain.repository.cliente_repository import ClienteRepository
 from src.core.cliente.application.use_case.actions.activate_cliente import ActivateCliente
 from src.core.cliente.domain.cliente import Cliente
 from src.core.cliente.domain.exceptions import ClienteNotFound
